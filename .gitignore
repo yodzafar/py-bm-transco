@@ -1,0 +1,16 @@
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Logs
+*.log
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+
+.env
