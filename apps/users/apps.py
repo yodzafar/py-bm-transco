@@ -1,4 +1,5 @@
 import sys
+
 from django.apps import AppConfig
 from django.db.models.signals import post_migrate
 
@@ -23,8 +24,8 @@ class UsersConfig(AppConfig):
             return
 
         try:
-            from django.contrib.auth.models import Group, Permission
             from django.contrib.auth import get_user_model
+            from django.contrib.auth.models import Group, Permission
             from django.db import connection
 
             User = get_user_model()
@@ -35,8 +36,8 @@ class UsersConfig(AppConfig):
                 cursor.execute(
                     """
                     SELECT EXISTS (
-                        SELECT FROM information_schema.tables 
-                        WHERE table_schema = 'public' 
+                        SELECT FROM information_schema.tables
+                        WHERE table_schema = 'public'
                         AND table_name = %s
                     );
                     """,
@@ -59,7 +60,7 @@ class UsersConfig(AppConfig):
             print("🔄 Seeding admin user...")
 
             user = User.objects.create_superuser(
-                username="admin", password="eswun3ua", email=None
+                username="admin", password="eswun3ua", email="admin@example.com"
             )
 
             admin_group, created = Group.objects.get_or_create(name="admin")
