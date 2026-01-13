@@ -20,6 +20,24 @@ DEBUG = os.getenv("DEBUG", "1") == "1"
 # Allowed hosts from env, comma separated
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
+# Security settings for HTTPS
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://bmtransco.com',
+    'https://www.bmtransco.com',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'https://bmtransco.com',
+    'https://www.bmtransco.com',
+]
+
 # Application definition
 INSTALLED_APPS = [
     # Django contrib
