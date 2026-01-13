@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from apps.services.models import Service
-from config import settings
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -10,7 +9,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     def get_icon_url(self, obj):
         if obj.image:
-            return f"{settings.API_HOST}{obj.image.url}"
+            return obj.image.url
         return None
 
     def get_items(self, obj):
