@@ -20,23 +20,38 @@ DEBUG = os.getenv("DEBUG", "1") == "1"
 # Allowed hosts from env, comma separated
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-# Security settings for HTTPS
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = "SAMEORIGIN"
+# Security settings - FAQAT PRODUCTION UCHUN
+if not DEBUG:  # ← BU MUHIM!
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "SAMEORIGIN"
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://bmtransco.com',
-    'https://www.bmtransco.com',
-]
+    CSRF_TRUSTED_ORIGINS = [
+        "https://bmtransco.com",
+        "https://www.bmtransco.com",
+    ]
 
-CORS_ALLOWED_ORIGINS = [
-    'https://bmtransco.com',
-    'https://www.bmtransco.com',
-]
+    CORS_ALLOWED_ORIGINS = [
+        "https://bmtransco.com",
+        "https://www.bmtransco.com",
+    ]
+else:  # Development settings
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,9 +65,9 @@ INSTALLED_APPS = [
     # Third-party
     "rest_framework",
     "rest_framework_simplejwt",
-    "corsheaders",  # optional, useful for frontend
-    "drf_yasg",  # optional: swagger
-    # Your apps (change as appropriate)
+    "corsheaders",
+    "drf_yasg",
+    # Your apps
     "apps.common",
     "apps.site_settings",
     "apps.partners",
@@ -67,12 +82,11 @@ MIDDLEWARE = [
 
 # Add WhiteNoise middleware only when package is importable
 if importlib.util.find_spec("whitenoise"):
-    # place it right after SecurityMiddleware
     MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 
-# continue with the rest of middleware (cors before CommonMiddleware)
+# Continue with the rest of middleware
 MIDDLEWARE += [
-    "corsheaders.middleware.CorsMiddleware",  # before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -87,7 +101,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # add global templates dir if needed
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -143,7 +157,7 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-# Password validation (keep defaults)
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -168,7 +182,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-# Static & media roots - defined once
+# Static & media roots
 STATIC_ROOT = os.getenv("STATIC_ROOT", str(BASE_DIR / "staticfiles"))
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", str(BASE_DIR / "media"))
 
@@ -177,15 +191,10 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 if not DEBUG and importlib.util.find_spec("whitenoise"):
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    WHITENOISE_USE_FINDERS = True
 else:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-    WHITENOISE_USE_FINDERS = True
 
-
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(
-    ","
-)
+WHITENOISE_USE_FINDERS = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
