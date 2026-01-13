@@ -1,4 +1,5 @@
 from django.db import models
+
 from apps.common.models import BaseModel
 
 
@@ -10,4 +11,4 @@ class Partner(BaseModel):
     logo = models.ImageField(upload_to="partners/logos/")
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"

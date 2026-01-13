@@ -20,6 +20,8 @@ DEBUG = os.getenv("DEBUG", "1") == "1"
 # Allowed hosts from env, comma separated
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
+APPEND_SLASH = False
+
 # Security settings - FAQAT PRODUCTION UCHUN
 if not DEBUG:  # ← BU MUHIM!
     SECURE_SSL_REDIRECT = True
@@ -72,6 +74,7 @@ INSTALLED_APPS = [
     "apps.site_settings",
     "apps.partners",
     "apps.services",
+    "apps.messages",
     "apps.users",
 ]
 

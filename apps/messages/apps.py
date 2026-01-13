@@ -2,4 +2,6 @@ from django.apps import AppConfig
 
 
 class MessagesConfig(AppConfig):
-    name = 'messages'
+    name = "apps.messages"
+    label = "contact_messages"
+    verbose_name = "Messages"

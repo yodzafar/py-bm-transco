@@ -1,9 +1,9 @@
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from drf_yasg import openapi
 
 from config import settings
 
@@ -32,6 +32,7 @@ urlpatterns = [
     path("api/", include("apps.partners.urls")),
     path("api/", include("apps.site_settings.urls")),
     path("api/", include("apps.services.urls")),
+    path("api/", include("apps.messages.urls")),
 ]
 
 if settings.DEBUG:
