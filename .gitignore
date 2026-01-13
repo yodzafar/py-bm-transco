@@ -19,6 +19,6 @@ __pycache__/
 staticfiles/
 media/
 
-
+deploy.sh
 
 .env
