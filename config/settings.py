@@ -1,7 +1,8 @@
-import os
 import importlib.util
+import os
 from datetime import timedelta
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Load .env if present (local dev)
@@ -146,13 +147,15 @@ TIME_ZONE = os.getenv("TIME_ZONE", "UTC")
 USE_I18N = True
 USE_TZ = True
 
-# Static & media
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-# Ensure STATIC_ROOT / MEDIA_ROOT are strings (safe for env fallback)
+# Static & media roots - defined once
 STATIC_ROOT = os.getenv("STATIC_ROOT", str(BASE_DIR / "staticfiles"))
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", str(BASE_DIR / "media"))
+
+# Static files directories
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 if not DEBUG and importlib.util.find_spec("whitenoise"):
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -161,8 +164,6 @@ else:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
     WHITENOISE_USE_FINDERS = True
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(
     ","
