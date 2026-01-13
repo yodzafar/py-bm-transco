@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from apps.common.admin import BaseAdmin, BaseInline
+
 from .models import Service, ServiceItem
 
 
@@ -75,4 +76,4 @@ class ServiceAdmin(BaseAdmin):
                 "</div>",
                 obj.image.url,
             )
-        return format_html('<p style="color: #999;">No logo uploaded</p>')
+        return "No icon"

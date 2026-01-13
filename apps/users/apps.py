@@ -20,7 +20,7 @@ class UsersConfig(AppConfig):
         if not any(
             cmd in sys.argv for cmd in ["runserver", "runserver_plus", "migrate"]
         ):
-            print(f"⏭️  Skipping - command not in allowed list")
+            print("⏭️  Skipping - command not in allowed list")
             return
 
         try:

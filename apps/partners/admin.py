@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
+
 from apps.common.admin import BaseAdmin
+
 from .models import Partner
 
 
@@ -51,12 +53,9 @@ class PartnerAdmin(BaseAdmin):
 
     @admin.display(description="Current Logo")
     def logo_display(self, obj):
-        """Large logo preview in detail view"""
         if obj.logo:
             return format_html(
-                '<div style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 10px; text-align: center;">'
-                '<img src="{}" style="max-width: 300px; max-height: 300px;" />'
-                "</div>",
+                '<img src="{}" style="max-height: 50px; max-width: 100px; object-fit: contain;" />',
                 obj.logo.url,
             )
-        return format_html('<p style="color: #999;">No logo uploaded</p>')
+        return "No logo"  # Oddiy string
