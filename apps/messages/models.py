@@ -1,6 +1,7 @@
 from django.db import models
 
 from apps.common.models import BaseModel
+from apps.messages.utils import send_contact_email, send_freight_email
 
 
 class ContactMessage(BaseModel):
@@ -16,6 +17,15 @@ class ContactMessage(BaseModel):
     class Meta:
         verbose_name = "Contact Message"
         verbose_name_plural = "Contact Messages"
+
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            try:
+                send_contact_email(self)
+            except Exception as e:
+                print(f"Contact Email Error: {e}")
 
 
 class FreightQuote(BaseModel):
@@ -46,3 +56,12 @@ class FreightQuote(BaseModel):
     class Meta:
         verbose_name = "Freight Quote"
         verbose_name_plural = "Freight Quotes"
+
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            try:
+                send_freight_email(self)
+            except Exception as e:
+                print(f"Error sending email: {e}")
